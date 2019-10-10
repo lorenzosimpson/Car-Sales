@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const initialState = {
-    // State properties: 
+import { ADD_FEATURE, REMOVE_FEATURE } from '../actions'
+
+export const initialState = {
     additionalPrice: 0,
     car: {
       price: 26395,
@@ -21,8 +22,32 @@ const initialState = {
 
 
 export const reducer = (state = initialState, action) => {
-  console.log(state, 'reducer state object')
-    return state
-    
+  console.log(action)
+
+  switch(action.type) {
+    case ADD_FEATURE: 
+      return {
+        ...state,
+        car: {
+          ...state.car,
+          features: [...state.car.features, action.payload]
+        },
+        store: state.store.filter(addOn => addOn.id !== action.payload.id),
+        additionalPrice: (state.additionalPrice += action.payload.price)
+      }
+
+      case REMOVE_FEATURE:
+          return {
+            ...state,
+            car: {
+              ...state.car,
+              features: state.car.features.filter( addOn => addOn.id !== action.payload.id)
+            },
+            store: [...state.store, action.payload],
+            additionalPrice: (state.additionalPrice -= action.payload.price)
+          }
+      default:
+          return state;
+      }
 }
 

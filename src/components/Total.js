@@ -9,12 +9,5 @@ const Total = props => {
   );
 };
 
-const mapStateToProps = state => {
-  console.log(state, 'total state')
-  return {
-    additionalPrice: state.additionalPrice,
-    car: state.car
-  }
-}
 
-export default connect(mapStateToProps, {})(Total);
+export default Total;
